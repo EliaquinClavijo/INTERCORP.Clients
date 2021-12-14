@@ -1,0 +1,38 @@
+# Microservice deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kclients
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kclients
+  template:
+    metadata:
+      labels:
+        app: kclients
+    spec:
+      containers:
+        - name: app
+          image: eliaquinclavijo/clients-service:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: POSTGRES_URL
+              value: postgres:ave123@postgres-db-lb:5432/ave-database-auth-v1
+          imagePullPolicy: Always
+
+---
+# MicroserviceService
+apiVersion: v1
+kind: Service
+metadata:
+  name: kclients
+spec:
+  selector:
+    app: kclients
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      targetPort: 8080
