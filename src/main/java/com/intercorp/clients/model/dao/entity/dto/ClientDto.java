@@ -3,7 +3,8 @@ package com.intercorp.clients.model.dao.entity.dto;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.Date;
 
 @Data
 @RequiredArgsConstructor
@@ -15,7 +16,7 @@ public class ClientDto {
 
     private int age;
 
-    private LocalDateTime birthdate;
+    private LocalDate birthdate;
 
     private int deadAge;
 
@@ -34,7 +35,7 @@ public class ClientDto {
         return this;
     }
 
-    public ClientDto birthdate(LocalDateTime birthdate) {
+    public ClientDto birthdate(LocalDate birthdate) {
         this.birthdate = birthdate;
         return this;
     }

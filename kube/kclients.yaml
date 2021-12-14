@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: eliaquinclavijo/clients-service:latest
+          image: avecontainerv1.azurecr.io/backend/clients-service
           ports:
             - containerPort: 8080
           env:
@@ -28,11 +28,30 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: kclients
+  name: kclients-service
 spec:
   selector:
     app: kclients
-  type: LoadBalancer
   ports:
     - port: 8080
       targetPort: 8080
+---
+# MicroserviceIngress
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: kclients-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /api/client
+            backend:
+              serviceName: kclients-service
+              servicePort: 8080
+          - path: /v3/api-docs/
+            backend:
+              serviceName: kclients-service
+              servicePort: 8080

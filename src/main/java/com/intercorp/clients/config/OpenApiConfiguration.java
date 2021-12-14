@@ -38,23 +38,8 @@ public class OpenApiConfiguration {
 
     @Bean
     public OpenAPI customOpenAPI() {
-        final String securitySchemeName = "Authorization";
         final String apiTitle = String.format("%s API", StringUtils.capitalize(moduleName));
         return new OpenAPI()
-                .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
-                .components(
-                        new Components()
-                                .addSecuritySchemes(securitySchemeName,
-                                        new SecurityScheme()
-                                                .name(securitySchemeName)
-                                                .description("Standard Authorization header using the Bearer scheme. Example: \"bearer {token}\"")
-                                                .in(In.HEADER)
-                                                .type(SecurityScheme.Type.HTTP)
-                                                .scheme("bearer")
-                                                .bearerFormat("JWT")
-                                )
-                )
-                .addServersItem(new Server().url("http://localhost:" + env.getProperty("server.port")))
                 .info(new Info().title(apiTitle).version(apiVersion).description(moduleDescription));
     }
 }
